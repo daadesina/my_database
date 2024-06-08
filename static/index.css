@@ -1,0 +1,31 @@
+section {
+	padding-top: 10px;
+	display: grid;
+	height: 70vh;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 0.1fr;
+	grid-template-areas:
+		"sec_left sec_right"
+		"sec_bottom sec_bottom";
+	grid-gap: 4px;
+}
+
+#sec_left {
+	/*background-color: green;*/
+	grid-area: sec_left;
+}
+
+#sec_right {
+	/*background-color: purple;*/
+	grid-area: sec_right;
+}
+
+#sec_bottom {
+	/*background-color: red;*/
+	grid-area: sec_bottom;
+	text-align: center;
+}
+
+input {
+	width: 80%;
+}

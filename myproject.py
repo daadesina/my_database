@@ -31,7 +31,7 @@ class User(db.Model):
     gender = db.Column(db.String(100))
     department = db.Column(db.String(100))
     school = db.Column(db.String(100))
-    year_of_graduation = db.Column(db.String(100))
+    level_in_school = db.Column(db.String(100))
     date_of_birth = db.Column(db.String(100))
     state_of_origin = db.Column(db.String(100))
     state_of_residence = db.Column(db.String(100))

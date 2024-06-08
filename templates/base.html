@@ -7,6 +7,9 @@
 		<link rel='stylesheet' href="{{url_for('static', filename='base.css')}}">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<title>DataBase</title>
+		{% block head %}
+
+		{% endblock %}
 	</head>
 	<body>
 		<header>
@@ -14,11 +17,9 @@
 			<label>AdesinaDataBase</label>
 		</header>
 
-		<section>
-			{% block section %}
+		{% block section %}
 
-			{% endblock %}
-		</section>
+		{% endblock %}
 
 		<footer>
 			<div class='contact'>
