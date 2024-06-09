@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+
+{% block head %}
+
+<link rel='stylesheet' href="{{url_for('static', filename='new_info.css')}}">
+
+{% endblock %}
+
+
+
+{% block section %}
+
+<section>
+	<div id='sec_left'>
+		<form action="/new_info" id='main_form' method="POST">
+			<div class='form_label'>Full Name</div>
+			<input type='text' name='full_name'>
+			<div class='form_label'>Gender</div>
+                        <input type='text' name='gender'><br>
+			<div class='form_label'>Date of Birth</div>
+                        <input type='text' name='date_of_birth'><br>
+			<div class='form_label'>Paternal State of Origin</div>
+                        <input type='text' name='paternal_state_of_origin'><br>
+			<div class='form_label'>School</div>
+                        <input type='text' name='school'><br>
+			<div class='form_label'>Level In School</div>
+                        <input type='text' name='level_in_school'><br>
+			<div class='form_label'>State of Residence</div>
+                        <input type='text' name='state_of_residence'><br>
+			<div class='form_label'>Digital Skill</div>
+                        <input type='text' name='digital_skill'><br>
+			<div class='form_label'>Hubby</div>
+                        <input type='text' name='hubby'><br>
+			<div class='form_label'>Marital Status</div>
+                        <input type='text' name='marital_status'><br>
+			<div class='form_label'>Best Food</div>
+                        <input type='text' name='best_food'><br>
+			<div class='form_label'>Best Friend</div>
+                        <input type='text' name='best_friend'><br>
+		</form>
+	</div>
+
+	<div id='sec_right'>
+		<div class='form_label'>Nickname</div>
+		<input type='text' form='main_form' name='nickname'><br>
+		<div class='form_label'>Religion</div>
+		<input type='text' form='main_form' name='religion'><br>
+		<div class='form_label'>Phone Number</div>
+		<input type='text' form='main_form' name='phone_number'><br>
+		<div class='form_label' >Maternal State of Origin</div>
+		<input type='text' form='main_form' name='maternal_state_of_origin'><br>
+		<div class='form_label'>Department</div>
+                <input type='text' form='main_form' name='department'><br>
+		<div class='form_label'>Know From</div>
+                <input type='text' form='main_form' name='known_from'><br>
+		<div class='form_label'>State of NYSC</div>
+                <input type='text' form='main_form' name='state_of_nysc'><br>
+		<div class='form_label'>Non-Digital Skill</div>
+                <input type='text' form='main_form' name='non_digital_skill'><br>
+		<div class='form_label'>Side Hustle</div>
+                <input type='text' form='main_form' name='side_hustle'><br>
+		<div class='form_label'>Future Dream</div>
+                <input type='text' form='main_form' name='future_dream'><br>
+		<div class='form_label'>Best Color</div>
+                <input type='text' form='main_form' name='best_color'><br>
+		<div class='form_label'>Favorite Place</div>
+                <input type='text' form='main_form' name='favorite_place'><br>
+	</div>
+	
+	<div id='sec_bottom'>
+		<input id='submit_button' type='submit' name='submit' form='main_form' value='Register into Database'>
+	</div>
+</section>
+
+{% endblock %}

@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 
-
 {% block head %}
 
 <link rel='stylesheet' href="{{url_for('static', filename='index.css')}}">
@@ -12,22 +11,14 @@
 {% block section %}
 
 <section>
-	<div id='sec_left'>
-		<form action=' ' name='main_form'>
-			<label>Full Name</label>
-			<input type='text'>
-		</form>
-	</div>
-
-	<div id='sec_right'>
-		<form action=' ' name='main_form'>
-                        <label>Nick Name</label>
-                        <input type='text'>
-                </form>
-	</div>
-	
-	<div id='sec_bottom'>
-		<p>PART3</p>
+	<div>
+		<h1>Welcome to AdesinaDataBase Hub</h1>
+		<h3>What Would You Like to Do ?</h3>
+		<div id='section_button'>
+			<button><a href=' '>SEE DATA</a></button>
+			<button><a href=' '>SEARCH DATA</a></button>
+		</div>
+		<button><a href='/new_info'>REGISTER NEW DATA</a></button>
 	</div>
 </section>
 
