@@ -10,19 +10,15 @@ from sqlalchemy import create_engine
 
 
 
+
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
-#app.config['SQLALCHEMY_DATABASE_URI'] =\
-#        'mysql+pymysql://' + os.path.join(basedir, 'my_datab')
+app.config['SECRET_KEY'] = 'secrete_key'
+app.config['SQLALCHEMY_DATABASE_URI'] =\
+        'sqlite:///' + os.path.join(basedir, 'db.sqlite')
 
-#Configuring the Flask app to connect to the MySQL database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://adesina:ab702810@localhost/my_database'
-#engine = create_engine('mysql+pymysql://my_database')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-#Creating an instance of the SQLAlchemy class
 db = SQLAlchemy(app)
 
 #with app.app_context():
@@ -36,32 +32,32 @@ app.register_blueprint(main_blueprint)
 class Member(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
-    full_name = db.Column(db.VARCHAR(100), unique=True)
-    nickname = db.Column(db.VARCHAR(100))
-    gender = db.Column(db.VARCHAR(100))
-    religion = db.Column(db.VARCHAR(100))
-    month_of_birth = db.Column(db.VARCHAR(100))
-    date_of_birth = db.Column(db.VARCHAR(100))
-    department = db.Column(db.VARCHAR(100))
-    school = db.Column(db.VARCHAR(100))
-    level_in_school = db.Column(db.VARCHAR(100))
-    date_of_birth = db.Column(db.VARCHAR(100))
-    paternal_state_of_origin = db.Column(db.VARCHAR(100))
-    maternal_state_of_origin = db.Column(db.VARCHAR(100))
-    state_of_residence = db.Column(db.VARCHAR(100))
-    state_of_nysc = db.Column(db.VARCHAR(100))
-    phone_number = db.Column(db.VARCHAR(100))
-    marital_status = db.Column(db.VARCHAR(100))
-    known_from = db.Column(db.VARCHAR(100))
-    digital_skill = db.Column(db.VARCHAR(100))
-    non_digital_skill = db.Column(db.VARCHAR(100))
-    side_hustle = db.Column(db.VARCHAR(100))
-    best_food = db.Column(db.VARCHAR(100))
-    best_color = db.Column(db.VARCHAR(100))
-    best_friend = db.Column(db.VARCHAR(100))
-    favorite_place = db.Column(db.VARCHAR(100))
-    hubby = db.Column(db.VARCHAR(100))
-    future_dream = db.Column(db.VARCHAR(1000))
+    full_name = db.Column(db.String(100), unique=True)
+    nickname = db.Column(db.String(100))
+    gender = db.Column(db.String(100))
+    religion = db.Column(db.String(100))
+    month_of_birth = db.Column(db.String(100))
+    date_of_birth = db.Column(db.String(100))
+    department = db.Column(db.String(100))
+    school = db.Column(db.String(100))
+    level_in_school = db.Column(db.String(100))
+    date_of_birth = db.Column(db.String(100))
+    paternal_state_of_origin = db.Column(db.String(100))
+    maternal_state_of_origin = db.Column(db.String(100))
+    state_of_residence = db.Column(db.String(100))
+    state_of_nysc = db.Column(db.String(100))
+    phone_number = db.Column(db.String(100))
+    marital_status = db.Column(db.String(100))
+    known_from = db.Column(db.String(100))
+    digital_skill = db.Column(db.String(100))
+    non_digital_skill = db.Column(db.String(100))
+    side_hustle = db.Column(db.String(100))
+    best_food = db.Column(db.String(100))
+    best_color = db.Column(db.String(100))
+    best_friend = db.Column(db.String(100))
+    favorite_place = db.Column(db.String(100))
+    hubby = db.Column(db.String(100))
+    future_dream = db.Column(db.String(1000))
 
 @app.route('/')
 def index():
@@ -104,7 +100,6 @@ def new_info_post():
     #create a new user, that is, to allocate a row to store the information.
 
     print (f"My name is: {full_name_py}")
-    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
 
     new_user = Member(
             full_name = full_name_py,
@@ -146,7 +141,7 @@ def show_data():
 
 @app.route('/pre_show_data')
 def pre_show_data():
-    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+    engine = create_engine('sqlite:///db.sqlite')
     query = """SELECT * FROM member;"""
     df = pd.read_sql(query, engine)
     #df = pd.read_sql_table('member', engine)
@@ -160,7 +155,7 @@ def search_data():
 @app.route('/search_data_column', methods=["GET", "POST"])
 def search_data_column():
     search_data_py = request.form.get('search_column_html')
-    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+    engine = create_engine('sqlite:///db.sqlite')
     df = pd.read_sql_table('member', engine, columns=[f'{search_data_py}'])
     return (df.to_html())
 
@@ -168,7 +163,7 @@ def search_data_column():
 def search_data_row():
     search_column_py = request.form.get('search_column_row_html')
     search_row_py = request.form.get('search_row_html')
-    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+    engine = create_engine('sqlite:///db.sqlite')
     query = f"SELECT * FROM member WHERE {search_column_py}='{search_row_py}'"
     df = pd.read_sql(query, engine)
     return (df.to_html())
@@ -181,12 +176,10 @@ def change_data():
 def change_data_post():
     change_move_py = request.form.get('change_move_html')
     change_after_py = request.form.get('change_after_html')
-    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
-    query = f"ALTER TABLE member MODIFY {change_move_py} VARCHAR(100) AFTER {change_after_py}"
-    try:
-        pd.read_sql(query, engine)
-    finally:
-        return redirect(url_for('pre_show_data'))
+    engine = create_engine('sqlite:///db.sqlite')
+    query = f"ALTER TABLE member MODIFY {change_move_py} TEXT AFTER {change_after_py}"
+    df = pd.read_sql(query, engine)
+    return(df.to_html())
 
 @app.route('/delete_data')
 def delete_data():
@@ -200,7 +193,7 @@ def delete_data_post():
     df.drop(column=row_number_py)
     df.to_sql(name='member', con=engine, index=False, if_exists='replace')
     df = pd.read_sql_query("SELECT * FROM member", engine)
-    return ('Process Sucessful')
+    return (df.to_html())
 '''
 if __name__ == '__main__':
     with app.app_context():

@@ -1,0 +1,22 @@
+section {
+	display: grid;
+	height: 100vh;
+	grid-template-columns: 0.5fr 1fr;
+	grid-template-rows: 1fr;
+	grid-template-areas: "search_left search_right";
+	grid-gap: 4px;
+}
+
+#search_left {
+	background-color: red;
+	grid-area: search_left;
+}
+
+#search_right {
+	background-color: green;
+	grid-area: search_right;
+}
+
+iframe {
+	width: 100%;
+}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+<link rel='stylesheet' href="{{url_for('static', filename='search_data.css')}}">
+
+{% endblock %}
+
+
+{% block section %}
+
+<section>
+	<div id='search_right'>
+		<iframe name='search_iframe'></iframe>
+	</div>
+
+	<div id='search_left'>
+		<form id='search_column' action="/search_data_column" target="search_iframe" method="POST">
+			<div class='form_label'>SELECT COLUMN</div>
+			<select name='search_column_html'>
+				<option value='full_name'>FULL NAME</option>
+				<option value='nickname'>NICKNAME</option>
+				<option value='phone_number'>PHONE NUMBER</option>
+				<option value='gender'>GENDER</option>
+				<option value='department'>DEPARTMENT</option>
+				<option value='school'>SCHOOL</option>
+				<option value='level_in_school'>LEVEL IN SCHOOL</option>
+				<option value='month_of_birth'>MONTH OF BIRTH</option>
+				<option value='date_of_birth'>DATE OF BIRTH</option>
+				<option value='paternal_state_of_origin'>PARTERNAL STATE OF ORIGIN</option>
+				<option value='maternal_state_of_origin'>MATERNAL STATE OF ORIGIN</option>
+				<option value='state_of_residence'>STATE OF RESIDENCE</option>
+				<option value='state_of_nysc'>STATE OF NYSC</option>
+				<option value='religion'>RELIGION</option>
+				<option value='marital_status'>MARITAL STATUS</option>
+				<option value='known_from'>KNOWN FROM</option>
+				<option value='digital_skill'>DIGITAL SKILL</option>
+				<option value='non_digital_skill'>NON-DIGITAL SKILL</option>
+				<option value='side_hustle'>SIDE HUSTLE</option>
+				<option value='best_food'>BEST FOOD</option>
+				<option value='best_color'>BEST COLOR</option>
+				<option value='best_friend'>BEST FRIEND</option>
+				<option value='favorite_place'>FAVORITE PLACE</option>
+				<option value='hubby'>HUBBY</option>
+				<option value='future_dream'>FUTURE DREAM</option>
+			</select>
+			<input type='submit' value='Search Column'>
+		</form>
+
+
+
+		<form id='search_row' action="/search_data_row" target="search_iframe" method="POST">
+                        <div class='form_label'>SELECT COLUMN</div>
+                        <select name='search_column_row_html'>
+                                <option value='full_name'>FULL NAME</option>
+                                <option value='nickname'>NICKNAME</option>
+                                <option value='phone_number'>PHONE NUMBER</option>
+                                <option value='gender'>GENDER</option>
+                                <option value='department'>DEPARTMENT</option>
+                                <option value='school'>SCHOOL</option>
+                                <option value='level_in_school'>LEVEL IN SCHOOL</option>
+				<option value='month_of_birth'>MONTH OF BIRTH</option>
+                                <option value='date_of_birth'>DATE OF BIRTH</option>
+                                <option value='paternal_state_of_origin'>PARTERNAL STATE OF ORIGIN</option>
+                                <option value='maternal_state_of_origin'>MATERNAL STATE OF ORIGIN</option>
+                                <option value='state_of_residence'>STATE OF RESIDENCE</option>
+                                <option value='state_of_nysc'>STATE OF NYSC</option>
+                                <option value='religion'>RELIGION</option>
+                                <option value='marital_status'>MARITAL STATUS</option>
+                                <option value='known_from'>KNOWN FROM</option>
+                                <option value='digital_skill'>DIGITAL SKILL</option>
+                                <option value='non_digital_skill'>NON-DIGITAL SKILL</option>
+                                <option value='side_hustle'>SIDE HUSTLE</option>
+                                <option value='best_food'>BEST FOOD</option>
+                                <option value='best_color'>BEST COLOR</option>
+                                <option value='best_friend'>BEST FRIEND</option>
+                                <option value='favorite_place'>FAVORITE PLACE</option>
+                                <option value='hubby'>HUBBY</option>
+                                <option value='future_dream'>FUTURE DREAM</option>
+                        </select>
+			<input type='search' name='search_row_html'></input>
+                        <input type='submit' value='Search Row'>
+		</form>
+	</div>
+</section>
+
+{% endblock %}
