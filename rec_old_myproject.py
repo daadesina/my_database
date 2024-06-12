@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask import Blueprint, render_template, url_for, request, redirect
@@ -8,32 +9,40 @@ import sqlalchemy
 from sqlalchemy import create_engine
 import pymysql
 
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
+#app.config['SQLALCHEMY_DATABASE_URI'] =\
+#        'mysql+pymysql://' + os.path.join(basedir, 'my_datab')
 
 #Create a connection and a database
-dbase = pymysql.connections.Connection(
+db = pymysql.connections.Connection(
         host='localhost',
         user='adesina',
         password='ab702810'
         )
 
-print (dbase)
+print (db)
 
-cursor = dbase.cursor()
+cursor = db.cursor()
 cursor.execute("CREATE DATABASE IF NOT EXISTS my_database")
 cursor.execute("USE my_database")
+#cursor.close()
+#db.close()
 
 
 
 #Configuring the Flask app to connect to the MySQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://adesina:ab702810@localhost/my_database'
+#engine = create_engine('mysql+pymysql://my_database')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 #Creating an instance of the SQLAlchemy class
 db = SQLAlchemy(app)
 
+#with app.app_context():
+#        db.create_all()
 
 main = Blueprint('main', __name__)
 main_blueprint = main
@@ -194,39 +203,71 @@ def edit_data():
 def edit_data_post():
     edit_move_py = request.form.get('edit_move_html')
     edit_after_py = request.form.get('edit_after_html')
-    query = f"ALTER TABLE member MODIFY {edit_move_py} VARCHAR(100) AFTER {edit_after_py}"
-    cursor.execute(query)
-    dbase.commit()
-    #copy the database to a csv file
     engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
-    query = """SELECT * FROM member;"""
-    df = pd.read_sql(query, engine)
-    df_csv = df.to_csv('my_database.csv')
-    return redirect(url_for('pre_show_data'))
+    query = f"ALTER TABLE member MODIFY {edit_move_py} VARCHAR(100) AFTER {edit_after_py}"
+    try:
+        pd.read_sql(query, engine)
+    finally:
+        #copy the database to a csv file
+        engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+        query = """SELECT * FROM member;"""
+        df = pd.read_sql(query, engine)
+        df_csv = df.to_csv('my_database.csv')
+        return redirect(url_for('pre_show_data'))
 
 @app.route('/update_data_post', methods=["GET", "POST"])
 def update_data_post():
     update_select_column_py = request.form.get('update_select_column_html')
     update_search_id_py = request.form.get('update_search_id_html')
     update_text_py = request.form.get('update_text_html')
-    query = f"UPDATE member SET {update_select_column_py} = '{update_text_py}' WHERE id = {update_search_id_py}"
-    cursor.execute(query)
-    dbase.commit()
-
-    #copy the database to a csv file
     engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
-    query = """SELECT * FROM member;"""
-    df = pd.read_sql(query, engine)
-    df_csv = df.to_csv('my_database.csv')
+    query = f"UPDATE member SET gender = 'male'"
+    cursor.execute(query)
+    db.commit()
+    #try:
+    #df = pd.read_sql(query, engine)
+    '''    
+    finally:
+        #copy the database to a csv file
+        engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+        query = """SELECT * FROM member;"""
+        df = pd.read_sql(query, engine)
+        df_csv = df.to_csv('my_database.csv')
+    '''
     return redirect(url_for('pre_show_data'))
 
 
 
 
+
+    '''
+    update_select_column_py = request.form.get('update_select_column_html')
+    update_search_id_py = request.form.get('update_search_id_html')
+    update_text_py = request.form.get('update_text_html')
+    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+    query = f"UPDATE member SET {update_select_column_py} = '{update_text_py}' WHERE id = 1"
+    pd.read_sql(query, engine)
+    return redirect(url_for('pre_show_data'))
+    '''
+
+@app.route('/delete_data')
+def delete_data():
+    return render_template('delete_data.html')
+'''
+@app.route('/delete_data_post', methods=["GET", "POST"])
+def delete_data_post():
+    row_number_py = (request.form.get('row_number_html'))
+    engine = sqlite3.connect("./db.sqlite")
+    df = pd.read_sql_query("SELECT * FROM member", engine)
+    df.drop(column=row_number_py)
+    df.to_sql(name='member', con=engine, index=False, if_exists='replace')
+    df = pd.read_sql_query("SELECT * FROM member", engine)
+    return ('Process Sucessful')
+'''
+
+#cursor.close()
+#db.close()
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(host='0.0.0.0', port=5000)
-    cursor.close()
-    dbase.close()
-

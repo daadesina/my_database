@@ -2,7 +2,7 @@
 
 {% block head %}
 
-<link rel='stylesheet' href="{{url_for('static', filename='change_data.css')}}">
+<link rel='stylesheet' href="{{url_for('static', filename='edit_data.css')}}">
 
 {% endblock %}
 
@@ -10,14 +10,14 @@
 {% block section %}
 
 <section>
-	<div id='change_right'>
-		<iframe name='change_iframe' src='/pre_show_data'></iframe>
+	<div id='edit_right'>
+		<iframe name='edit_iframe' src='/pre_show_data'></iframe>
 	</div>
 
-	<div id='change_left'>
-		<form id='change_column' action="/change_data_post" target="change_iframe" method="POST">
+	<div id='edit_left'>
+		<form id='change_column' action="/edit_data_post" target="edit_iframe" method="POST">
 			<div class='form_label'>MOVE:</div>
-			<select name='change_move_html'>
+			<select name='edit_move_html'>
 				<option value='full_name'>FULL NAME</option>
 				<option value='nickname'>NICKNAME</option>
 				<option value='phone_number'>PHONE NUMBER</option>
@@ -45,7 +45,7 @@
 				<option value='future_dream'>FUTURE DREAM</option>
 			</select>
                         <div class='form_label'>AFTER:</div>
-                        <select name='change_after_html'>
+                        <select name='edit_after_html'>
                                 <option value='full_name'>FULL NAME</option>
                                 <option value='nickname'>NICKNAME</option>
                                 <option value='phone_number'>PHONE NUMBER</option>
@@ -72,7 +72,47 @@
                                 <option value='hubby'>HUBBY</option>
                                 <option value='future_dream'>FUTURE DREAM</option>
                         </select>
+			</br>
                         <input type='submit' value='MOVE'>
+		</form>
+		</br></br></br></br>
+
+
+		<form id='update_data' action="/update_data_post" target="edit_iframe" method="POST">
+			<div>UPDATE THE DATA IN COLUMN</div>
+			<select name='update_select_column_html'>
+                                <option value='full_name'>FULL NAME</option>
+                                <option value='nickname'>NICKNAME</option>
+                                <option value='phone_number'>PHONE NUMBER</option>
+                                <option value='gender'>GENDER</option>
+                                <option value='department'>DEPARTMENT</option>
+                                <option value='school'>SCHOOL</option>
+                                <option value='level_in_school'>LEVEL IN SCHOOL</option>
+                                <option value='month_of_birth'>MONTH OF BIRTH</option>
+                                <option value='date_of_birth'>DATE OF BIRTH</option>
+                                <option value='paternal_state_of_origin'>PARTERNAL STATE OF ORIGIN</option>
+                                <option value='maternal_state_of_origin'>MATERNAL STATE OF ORIGIN</option>
+                                <option value='state_of_residence'>STATE OF RESIDENCE</option>
+                                <option value='state_of_nysc'>STATE OF NYSC</option>
+                                <option value='religion'>RELIGION</option>
+                                <option value='marital_status'>MARITAL STATUS</option>
+                                <option value='known_from'>KNOWN FROM</option>
+                                <option value='digital_skill'>DIGITAL SKILL</option>
+                                <option value='non_digital_skill'>NON-DIGITAL SKILL</option>
+                                <option value='side_hustle'>SIDE HUSTLE</option>
+                                <option value='best_food'>BEST FOOD</option>
+                                <option value='best_color'>BEST COLOR</option>
+                                <option value='best_friend'>BEST FRIEND</option>
+                                <option value='favorite_place'>FAVORITE PLACE</option>
+                                <option value='hubby'>HUBBY</option>
+                                <option value='future_dream'>FUTURE DREAM</option>
+                        </select>
+			<div>THAT HAS THE ID OF</div>
+			<input type='search' name='update_search_id_html'>
+			<div>WITH THIS TEXT</div>
+			<input type='input' name='update_text_html'>
+			</br>
+			<input type='submit' name='update_submit_html' value='UPDATE'>
 		</form>
 	</div>
 </section>
