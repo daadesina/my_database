@@ -7,8 +7,7 @@ from flask import Blueprint, render_template, url_for, request, redirect
 import pandas as pd
 import sqlalchemy
 from sqlalchemy import create_engine
-
-
+import pymysql
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -16,6 +15,24 @@ app = Flask(__name__)
 
 #app.config['SQLALCHEMY_DATABASE_URI'] =\
 #        'mysql+pymysql://' + os.path.join(basedir, 'my_datab')
+
+#Create a connection and a database
+db = pymysql.connections.Connection(
+        host='localhost',
+        user='adesina',
+        password='ab702810'
+        )
+
+print (db)
+
+cursor = db.cursor()
+cursor.execute("CREATE DATABASE IF NOT EXISTS my_database")
+
+cursor.close()
+db.close()
+
+
+
 
 #Configuring the Flask app to connect to the MySQL database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://adesina:ab702810@localhost/my_database'
@@ -36,7 +53,7 @@ app.register_blueprint(main_blueprint)
 class Member(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
-    full_name = db.Column(db.VARCHAR(100), unique=True)
+    full_name = db.Column(db.VARCHAR(100))
     nickname = db.Column(db.VARCHAR(100))
     gender = db.Column(db.VARCHAR(100))
     religion = db.Column(db.VARCHAR(100))
@@ -138,6 +155,12 @@ def new_info_post():
     db.session.commit()
 
 
+    #copy the database to a csv file
+    engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+    query = """SELECT * FROM member;"""
+    df = pd.read_sql(query, engine)
+    df_csv = df.to_csv('my_database.csv')
+    
     return redirect(url_for('index'))
 
 @app.route('/show_data')
@@ -186,6 +209,11 @@ def change_data_post():
     try:
         pd.read_sql(query, engine)
     finally:
+        #copy the database to a csv file
+        engine = create_engine('mysql+pymysql://adesina:ab702810@localhost/my_database')
+        query = """SELECT * FROM member;"""
+        df = pd.read_sql(query, engine)
+        df_csv = df.to_csv('my_database.csv')
         return redirect(url_for('pre_show_data'))
 
 @app.route('/delete_data')
