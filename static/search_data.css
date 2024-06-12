@@ -8,15 +8,16 @@ section {
 }
 
 #search_left {
-	background-color: red;
+	/*background-color: red;*/
 	grid-area: search_left;
 }
 
 #search_right {
-	background-color: green;
+	/*background-color: green;*/
 	grid-area: search_right;
 }
 
 iframe {
 	width: 100%;
+	height: 100%;
 }
